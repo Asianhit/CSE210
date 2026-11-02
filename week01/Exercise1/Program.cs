@@ -10,7 +10,8 @@ class Program
 
         Console.Write("What is your late name? ");
         string lname = Console.ReadLine();
+        Console.WriteLine();
 
-        Console.WriteLine($"Your name is {lname}, {fname} {lname}");
+        Console.WriteLine($"Your name is {lname}, {fname} {lname}.");
     }
 }
