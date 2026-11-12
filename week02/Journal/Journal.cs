@@ -5,6 +5,11 @@ class Journal
 {
     List<Entry> _entries = new List<Entry>();
 
+    public IReadOnlyList<Entry> Entries
+    {
+        get { return _entries.AsReadOnly(); }
+    }
+
     public void AddEntry(Entry newEntry)
     {
         _entries.Add(newEntry);
@@ -30,7 +35,7 @@ class Journal
         {
             foreach (Entry entry in _entries)
             {
-                writer.WriteLine($"{entry._date}|{entry._promptText}|{entry._entryText}");
+                writer.WriteLine($"{entry._date}|{entry._promptText}|{entry._mood}|{entry._entryText}");
             }
         }
     }
@@ -42,13 +47,13 @@ class Journal
             throw new FileNotFoundException("Journal File was not Found.", fileName);
         }
 
-        _entries.Clear();
+        List<Entry> loadedEntries = new List<Entry>();
 
         foreach (string line in File.ReadAllLines(fileName))
         {
-            string[] fields = line.Split('|', 3);
+            string[] fields = line.Split('|', 4);
 
-            if (fields.Length != 3)
+            if (fields.Length != 3 && fields.Length != 4)
             {
                 throw new FormatException("Journal file contains an invalid entry.");
             }
@@ -56,9 +61,21 @@ class Journal
             Entry entry = new Entry();
             entry._date = fields[0];
             entry._promptText = fields[1];
-            entry._entryText = fields[2];
+            if (fields.Length == 4)
+            {
+                entry._mood = fields[2];
+                entry._entryText = fields[3];
+            }
+            else
+            {
+                entry._mood = "Unspecified";
+                entry._entryText = fields[2];
+            }
 
-            _entries.Add(entry);
+            loadedEntries.Add(entry);
         }
+
+        _entries.Clear();
+        _entries.AddRange(loadedEntries);
     }
 }

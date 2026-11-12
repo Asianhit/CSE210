@@ -7,6 +7,7 @@ class Program
     {
         Journal journal = new Journal();
         PromptGenerator promptGenerator = new PromptGenerator();
+        MoodTracker moodTracker = new MoodTracker();
         string choice = "";
 
         while (choice != "5")
@@ -18,6 +19,7 @@ class Program
             Console.WriteLine("3. Save the journal");
             Console.WriteLine("4. Load the journal");
             Console.WriteLine("5. Quit");
+            Console.WriteLine("6. Display mood summary");
             Console.Write("Choose an option: ");
             choice = Console.ReadLine();
 
@@ -28,11 +30,13 @@ class Program
                     Console.WriteLine(prompt);
                     Console.Write("> ");
                     string response = Console.ReadLine();
+                    string mood = moodTracker.GetMood();
 
                     Entry entry = new Entry();
                     entry._date = DateTime.Now.ToString("yyyy-MM-dd");
                     entry._promptText = prompt;
                     entry._entryText = response;
+                    entry._mood = mood;
                     journal.AddEntry(entry);
                     break;
 
@@ -66,8 +70,12 @@ class Program
                     Console.WriteLine("Goodbye.");
                     break;
 
+                case "6":
+                    moodTracker.DisplaySummary(journal.Entries);
+                    break;
+
                 default:
-                    Console.WriteLine("Please choose an option from 1 to 5.");
+                    Console.WriteLine("Please choose an option from 1 to 6.");
                     break;
             }
         }
