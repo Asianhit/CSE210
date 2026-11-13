@@ -2,6 +2,8 @@ using System;
 using System.IO;
 
 class Program
+// I added another class named MoodTracker, to check how the user feel and record their feelings and
+// and record it.
 {
     static void Main(string[] args)
     {
