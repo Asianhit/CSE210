@@ -10,6 +10,7 @@ class Program
             "For God so loved the world that he gave his only begotten Son.");
 
         // Stretch challenge: let the player choose how many words to hide each turn.
+        // The number of hidden words matches the underscore, one underscore per letter 
         int wordsToHide;
 
         while (true)
